@@ -1,17 +1,19 @@
-import styled from 'styled-components'
-import db from '../db.json'
-import Widget from '../src/components/Widget'
-import QuizLogo from '../src/components/QuizLogo'
-import QuizBackground from '../src/components/QuizBackground'
-import Footer from '../src/components/Footer'
-import GitHubCorner from '../src/components/GithubCorner'
-
-const BackgroundImages = styled.div`
-background-image: url(${db.bg});
-flex:1;
-background-size:cover;
-background-position:center;
-`
+import React from 'react';
+import styled from 'styled-components';
+import Head from 'next/head';
+import db from '../db.json';
+import Widget from '../src/components/Widget';
+import QuizLogo from '../src/components/QuizLogo';
+import QuizBackground from '../src/components/QuizBackground';
+import Footer from '../src/components/Footer';
+import GitHubCorner from '../src/components/GithubCorner';
+import { useRouter } from 'next/router';
+// const BackgroundImages = styled.div`
+// background-image: url(${db.bg});
+// flex:1;
+// background-size:cover;
+// background-position:center;
+// `;
 export const QuizContainer = styled.div`
   width: 100%;
   max-width: 350px;
@@ -23,26 +25,46 @@ export const QuizContainer = styled.div`
   }
 `;
 
-
 // function Title({children}) {
 //   return (
 //     <h1>
 //       {children}
 //     </h1>
 //   )
-// } 
+// }
 
 export default function Home() {
+  const router = useRouter()
+  const [name, setName] = React.useState('')
+
+  function SubQuiz(event) {
+    event.preventDefault()
+    router.push(`/quiz?name=${name}`)
+  }
+
+  function InputName(event) {
+    console.log(name)
+    setName(event.target.value)
+  }
   return (
+ 
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>Alura Quiz</title>
+      </Head>
       <QuizContainer>
+        <QuizLogo />
         <Widget>
           <Widget.Header>
             <h1>The Legend of Zelda</h1>
           </Widget.Header>
           <Widget.Content>
-
-            <p>Olá bem-vindo ao Quiz</p>
+            <form onSubmit={SubQuiz} >
+              <input type="text" placeholder="Digite seu nome" onChange={InputName} />
+              <button type="submit" disabled={name.length === 0}>
+                  Jogar  {name}
+              </button>
+            </form> 
           </Widget.Content>
         </Widget>
         <Widget>
@@ -55,5 +77,5 @@ export default function Home() {
       </QuizContainer>
       <GitHubCorner projectUrl="https://hithub.com/Math2121" />
     </QuizBackground>
-  )
+  );
 }

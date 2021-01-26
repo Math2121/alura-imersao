@@ -1,4 +1,5 @@
-import styled from 'styled-components' 
+import styled from 'styled-components';
+
 const Widget = styled.div`
 margin-top:24px;
 margin-bottom:24px;
@@ -21,7 +22,7 @@ p {
     color:white;
     line-height: 1;
   }
-`
+`;
 Widget.Content = styled.div`
   padding: 24px 32px 32px 32px;
   & > *:first-child {
@@ -47,4 +48,4 @@ Widget.Header = styled.header`
     margin: 0;
   }
 `;
-export default Widget
+export default Widget;
