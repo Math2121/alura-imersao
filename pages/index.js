@@ -8,6 +8,8 @@ import QuizBackground from '../src/components/QuizBackground';
 import Footer from '../src/components/Footer';
 import GitHubCorner from '../src/components/GithubCorner';
 import { useRouter } from 'next/router';
+import Input from '../src/components/Input';
+import Button from '../src/components/Button';
 // const BackgroundImages = styled.div`
 // background-image: url(${db.bg});
 // flex:1;
@@ -60,10 +62,10 @@ export default function Home() {
           </Widget.Header>
           <Widget.Content>
             <form onSubmit={SubQuiz} >
-              <input type="text" placeholder="Digite seu nome" onChange={InputName} />
-              <button type="submit" disabled={name.length === 0}>
+              <Input  placeholder="Digite seu nome" onChange={InputName} value='' name='name' />
+              <Button type="submit" disabled={name.length === 0}>
                   Jogar  {name}
-              </button>
+              </Button>
             </form> 
           </Widget.Content>
         </Widget>
