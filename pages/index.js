@@ -10,6 +10,8 @@ import GitHubCorner from '../src/components/GithubCorner';
 import { useRouter } from 'next/router';
 import Input from '../src/components/Input';
 import Button from '../src/components/Button';
+import Link from '../src/components/Link';
+import {motion} from 'framer-motion'
 // const BackgroundImages = styled.div`
 // background-image: url(${db.bg});
 // flex:1;
@@ -56,7 +58,13 @@ export default function Home() {
       </Head>
       <QuizContainer>
         <QuizLogo />
-        <Widget>
+        <Widget transition={{ delay: 0, duration: 0.5 }} as={motion.section} variants={{
+          show: { opacity: 1,y:'0' },
+          hidden:{opacity:0,y:'100%'}
+        }}
+          initial='hidden'
+          animate='show'
+        >
           <Widget.Header>
             <h1>The Legend of Zelda</h1>
           </Widget.Header>
@@ -64,20 +72,42 @@ export default function Home() {
             <form onSubmit={SubQuiz} >
               <Input  placeholder="Digite seu nome" onChange={InputName} value='' name='name' />
               <Button type="submit" disabled={name.length === 0}>
-                  Jogar  {name}
+                Jogar  {name}
               </Button>
             </form> 
           </Widget.Content>
         </Widget>
-        <Widget>
+        <Widget transition={{delay:0.5,duration:0.5}} as={motion.section} variants={{
+          show: { opacity: 1 },
+          hidden: { opacity: 0 }
+        }}
+          initial='hidden'
+          animate='show'
+        >
           <Widget.Content>
             <h1>Quizes da Galera</h1>
-            <p>Teste seu conhecimento!</p>
+            <ul>
+              {db.external.map((externo) => {
+                const [projectName, githubUser] =  externo
+                .replace(/\//g,'')
+                .replace("https:"," ")
+                .replace(".vercel.app"," ")
+                .split(" ")
+                  return(
+                    <li key={externo}>
+                      <Widget.Topic href={`${githubUser}__${projectName}`} as={Link}>
+                        {`/quiz/${githubUser}__${projectName}`}
+                  </Widget.Topic>
+                    </li>
+                  )
+          
+            })}
+            </ul>
           </Widget.Content>
         </Widget>
         <Footer />
       </QuizContainer>
       <GitHubCorner projectUrl="https://hithub.com/Math2121" />
-    </QuizBackground>
+    </QuizBackground >
   );
 }
